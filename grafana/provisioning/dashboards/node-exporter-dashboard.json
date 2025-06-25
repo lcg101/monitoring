@@ -895,110 +895,39 @@
     {
       "datasource": "Prometheus",
       "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
+        "defaults": {},
         "overrides": []
       },
       "gridPos": {
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 32
+        "y": 40
       },
-      "id": 9,
+      "id": 20,
       "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "textMode": "auto"
+        "showHeader": true
       },
       "pluginVersion": "7.2.0",
       "targets": [
         {
-          "expr": "node_uname_info",
-          "interval": "",
-          "legendFormat": "{{domainname}} {{machine}} {{nodename}} {{release}} {{sysname}} {{version}}",
+          "expr": "floor((time() - node_boot_time_seconds) / 86400)",
+          "legendFormat": "Days",
           "refId": "A"
-        }
-      ],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "System Information",
-      "type": "stat"
-    },
-    {
-      "datasource": "Prometheus",
-      "fieldConfig": {
-        "defaults": {
-          "unit": "s",
-          "custom": {
-            "displayMode": "text"
-          },
-          "mappings": [
-            {
-              "type": "value",
-              "options": {
-                "0": {
-                  "text": "Just booted"
-                }
-              }
-            }
-          ],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          }
         },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 32
-      },
-      "id": 10,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "textMode": "auto"
-      },
-      "pluginVersion": "7.2.0",
-      "targets": [
         {
-          "expr": "time() - node_boot_time_seconds",
-          "interval": "",
-          "legendFormat": "Uptime",
-          "refId": "A"
+          "expr": "floor(((time() - node_boot_time_seconds) % 86400) / 3600)",
+          "legendFormat": "Hours",
+          "refId": "B"
+        },
+        {
+          "expr": "floor(((time() - node_boot_time_seconds) % 3600) / 60)",
+          "legendFormat": "Minutes",
+          "refId": "C"
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "System Uptime",
-      "type": "stat"
+      "title": "System Uptime (Days Hours Minutes)",
+      "type": "table"
     }
   ],
   "schemaVersion": 26,
