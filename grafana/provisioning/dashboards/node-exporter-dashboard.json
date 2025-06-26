@@ -895,39 +895,71 @@
     {
       "datasource": "Prometheus",
       "fieldConfig": {
-        "defaults": {},
+        "defaults": { "unit": "none" },
         "overrides": []
       },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 40
-      },
-      "id": 20,
+      "gridPos": { "h": 8, "w": 4, "x": 0, "y": 40 },
+      "id": 21,
       "options": {
-        "showHeader": true
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "textMode": "value"
       },
       "pluginVersion": "7.2.0",
       "targets": [
-        {
-          "expr": "floor((time() - node_boot_time_seconds) / 86400)",
-          "legendFormat": "Days",
-          "refId": "A"
-        },
-        {
-          "expr": "floor(((time() - node_boot_time_seconds) % 86400) / 3600)",
-          "legendFormat": "Hours",
-          "refId": "B"
-        },
-        {
-          "expr": "floor(((time() - node_boot_time_seconds) % 3600) / 60)",
-          "legendFormat": "Minutes",
-          "refId": "C"
-        }
+        { "expr": "floor((time() - node_boot_time_seconds) / 86400)", "legendFormat": "Days", "refId": "A" }
       ],
-      "title": "System Uptime (Days Hours Minutes)",
-      "type": "table"
+      "title": "Uptime (Days)",
+      "type": "stat"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": { "unit": "none" },
+        "overrides": []
+      },
+      "gridPos": { "h": 8, "w": 4, "x": 4, "y": 40 },
+      "id": 22,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "textMode": "value"
+      },
+      "pluginVersion": "7.2.0",
+      "targets": [
+        { "expr": "floor(((time() - node_boot_time_seconds) % 86400) / 3600)", "legendFormat": "Hours", "refId": "A" }
+      ],
+      "title": "Uptime (Hours)",
+      "type": "stat"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": { "unit": "none" },
+        "overrides": []
+      },
+      "gridPos": { "h": 8, "w": 4, "x": 8, "y": 40 },
+      "id": 23,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "textMode": "value"
+      },
+      "pluginVersion": "7.2.0",
+      "targets": [
+        { "expr": "floor(((time() - node_boot_time_seconds) % 3600) / 60)", "legendFormat": "Minutes", "refId": "A" }
+      ],
+      "title": "Uptime (Minutes)",
+      "type": "stat"
     }
   ],
   "schemaVersion": 26,

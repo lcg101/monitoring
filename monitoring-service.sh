@@ -47,6 +47,35 @@ check_status() {
     echo "메모리 사용률: $(free | grep Mem | awk '{printf("%.1f%%", $3/$2 * 100.0)}')"
     echo "디스크 사용률: $(df -h / | awk 'NR==2 {print $5}')"
     echo ""
+
+    # 시스템 업타임 및 Load Average 추가
+    log_info "시스템 업타임:"
+    uptime -p
+    log_info "Load Average:"
+    uptime | awk -F'load average:' '{ print $2 }'
+    echo ""
+
+    # 네트워크 트래픽 (eth0 기준)
+    log_info "네트워크 트래픽 (eth0, 1초 단위):"
+    RX1=$(cat /sys/class/net/eth0/statistics/rx_bytes)
+    TX1=$(cat /sys/class/net/eth0/statistics/tx_bytes)
+    sleep 1
+    RX2=$(cat /sys/class/net/eth0/statistics/rx_bytes)
+    TX2=$(cat /sys/class/net/eth0/statistics/tx_bytes)
+    echo "수신: $(( (RX2 - RX1) / 1024 )) KB/s, 송신: $(( (TX2 - TX1) / 1024 )) KB/s"
+    echo ""
+
+    # 파일 디스크립터
+    log_info "파일 디스크립터:"
+    OPEN_FD=$(cat /proc/sys/fs/file-nr | awk '{print $1}')
+    MAX_FD=$(cat /proc/sys/fs/file-max)
+    echo "열린 파일 디스크립터: $OPEN_FD / 최대: $MAX_FD"
+    echo ""
+
+    # 프로세스 수
+    log_info "프로세스 수:"
+    echo "현재 실행 중인 프로세스: $(ps -e --no-headers | wc -l)"
+    echo ""
 }
 
 # 서비스 시작
